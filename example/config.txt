@@ -1,2 +1,2 @@
-Prefix plugins/Tightness/
+Prefix plugins/Tightness/example/
 Plugin Tightness inputfile tightnessparams.txt outputfile Clusters_1.5_5_1.5_1.5.pvalued
