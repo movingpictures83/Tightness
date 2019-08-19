@@ -1,0 +1,4 @@
+unthresholded	pipelines/runBacteria/correlations.output.csv
+thresholded	pipelines/runBacteria/correlations.output.pvalued.csv
+clusters	pipelines/runBacteria/Clusters_1.5_5_1.5_1.5.pvalued.sortedclusters.csv	
+
