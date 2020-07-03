@@ -1,12 +1,19 @@
+dyn.load(paste("RPluMA", .Platform$dynlib.ext, sep=""))
+source("RPluMA.R")
 library(rlist)
+
 
 input <- function(inputfile) {
   parameters <<- read.table(inputfile, as.is=T);
   rownames(parameters) <<- parameters[,1]
-  clusterfile <- toString(parameters["clusters", 2])
-  unthresholded <- toString(parameters["unthresholded", 2])
-  thresholded <- toString(parameters["thresholded", 2])
-  clusters <- read.csv(clusterfile, header=FALSE);
+  pfix = prefix()
+  if (length(pfix) != 0) {
+     prefix <- paste(pfix, "/", sep="")
+  }
+  clusterfile <- paste(pfix, toString(parameters["clusters", 2]), sep="")
+  unthresholded <- paste(pfix, toString(parameters["unthresholded", 2]), sep="")
+  thresholded <- paste(pfix, toString(parameters["thresholded", 2]), sep="")
+  clusters <- read.csv(clusterfile, header=FALSE, check.names=FALSE);
   singlelist <<- clusters[,2]
   pos <- 0;
   listFull <<- list()
@@ -19,18 +26,17 @@ input <- function(inputfile) {
         listFull[[pos]] <<- append(listFull[[pos]], as.character(singlelist[[i]]));
      }
   }
-
-  newdata <<- read.csv(thresholded, header=TRUE);
-  originaldata <<- read.csv(unthresholded, header=TRUE);
+  newdata <<- read.csv(thresholded, header=TRUE,  check.names=FALSE);
+  originaldata <<- read.csv(unthresholded, header=TRUE,  check.names=FALSE);
   cn <<- colnames(newdata);
-  cn <<- cn[2:length(cn)];
-  newdata <<- newdata[,-1];
+  #cn <<- cn[2:length(cn)];
+  #newdata <<- newdata[,-1];
   newdata <<- apply(newdata, 1, as.numeric);
   newdata <<- t(newdata);
   colnames(newdata) <<- cn;
   cn <<- colnames(originaldata);
-  cn <<- cn[2:length(cn)];
-  originaldata <<- originaldata[,-1];
+  #cn <<- cn[2:length(cn)];
+  #originaldata <<- originaldata[,-1];
   originaldata <<- apply(originaldata, 1, as.numeric);
   originaldata <<- t(originaldata);
   colnames(originaldata) <<- cn;
